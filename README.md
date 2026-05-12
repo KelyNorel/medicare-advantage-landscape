@@ -112,8 +112,10 @@ The dashboard includes four interactive views:
 
 See [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) for the full analysis.
 
+
+
 ---
 
 **Author:** Raquel Norel, PhD
 **Domain:** Healthcare / Medicare policy
-**Status:** 🚧 In progress
+**Status:** ✅ Complete
