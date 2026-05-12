@@ -4,8 +4,8 @@ Exploratory analysis of the U.S. Medicare Advantage (MA) market using publicly a
 
 ## Overview
 
-Medicare Advantage has grown from covering ~35% of Medicare beneficiaries in 2020 to over 50% today — 
-a shift with major implications for insurers, providers, and policymakers. This project analyzes 
+Medicare Advantage has grown from covering ~35% of Medicare beneficiaries in 2020 to over 50% today —
+a shift with major implications for insurers, providers, and policymakers. This project analyzes
 enrollment trends, plan quality (star ratings), and market concentration across states and major insurers.
 
 All data sourced from CMS public datasets. No PHI involved.
@@ -22,9 +22,9 @@ All data sourced from CMS public datasets. No PHI involved.
 
 | Dataset | Source | Description |
 |---|---|---|
-| Monthly Enrollment by Contract | [CMS MA/Part D](https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-advantagepart-d-contract-and-enrollment-data) | Enrollment per plan, monthly |
-| Star Ratings Data Tables | [CMS Part C & D Performance Data](https://www.cms.gov/medicare/health-drug-plans/part-c-d-performance-data) | Quality ratings per contract, 2024–2026 |
-| Medicare Monthly Enrollment | [data.gov](https://catalog.data.gov/dataset/medicare-monthly-enrollment) | National/state/county enrollment trends |
+| Star Ratings Data Tables (2024–2026) | [CMS Part C & D Performance Data](https://www.cms.gov/medicare/health-drug-plans/part-c-d-performance-data) | Quality ratings per contract |
+| MA Enrollment by State/County/Contract | [CMS MA Enrollment](https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-advantagepart-d-contract-and-enrollment-data/monthly-ma-enrollment-state/county/contract) | Enrollment by geography, April 2026 |
+| Medicare Monthly Enrollment | [data.gov](https://catalog.data.gov/dataset/medicare-monthly-enrollment) | MA vs Original Medicare by state, Jan 2026 |
 
 ## Stack
 
@@ -38,11 +38,11 @@ All data sourced from CMS public datasets. No PHI involved.
 medicare-advantage-landscape/
 ├── data/
 │   ├── raw/          # CMS source files (not tracked in git)
-│   └── processed/    # cleaned datasets
+│   └── processed/    # cleaned datasets (not tracked in git)
 ├── notebooks/
 │   └── 01_eda.ipynb  # exploratory data analysis
 ├── src/
-│   ├── ingest.py     # data download and cleaning
+│   ├── ingest.py     # data ingestion and cleaning
 │   └── app.py        # Streamlit dashboard
 ├── requirements.txt
 └── README.md
@@ -55,12 +55,29 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-To download CMS data:
+### Download CMS data manually
+
+Download the following files from CMS and place them in `data/raw/`:
+
+| File | Source |
+|---|---|
+| 2024, 2025, 2026 Star Ratings Data Tables (ZIP) | [CMS Part C & D Performance Data](https://www.cms.gov/medicare/health-drug-plans/part-c-d-performance-data) |
+| MA Enrollment by State/County/Contract — April 2026 (abridged) | [CMS MA Enrollment](https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-advantagepart-d-contract-and-enrollment-data/monthly-ma-enrollment-state/county/contract) |
+| Medicare Monthly Enrollment — January 2026 (dataset only) | [data.gov](https://catalog.data.gov/dataset/medicare-monthly-enrollment) |
+
+Unzip all files into `data/raw/`, then run:
+
 ```bash
 python src/ingest.py
 ```
 
-To run the dashboard:
+This produces three clean CSVs in `data/processed/` ready for analysis:
+- `star_ratings.csv` — star ratings 2024–2026 per contract
+- `enrollment_county.csv` — MA enrollment by state/county/contract
+- `enrollment_monthly_state.csv` — MA vs Original Medicare by state
+
+### Run the dashboard
+
 ```bash
 streamlit run src/app.py
 ```
@@ -71,6 +88,6 @@ streamlit run src/app.py
 
 ---
 
-**Author:** Raquel Norel, PhD  
-**Domain:** Healthcare / Medicare policy  
+**Author:** Raquel Norel, PhD
+**Domain:** Healthcare / Medicare policy
 **Status:** 🚧 In progress
