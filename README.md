@@ -41,6 +41,7 @@ medicare-advantage-landscape/
 │   └── processed/    # cleaned datasets (not tracked in git)
 ├── notebooks/
 │   └── 01_eda.ipynb  # exploratory data analysis
+|   └── figures/      # saved plots
 ├── src/
 │   ├── ingest.py     # data ingestion and cleaning
 │   └── app.py        # Streamlit dashboard
@@ -82,9 +83,26 @@ This produces three clean CSVs in `data/processed/` ready for analysis:
 streamlit run src/app.py
 ```
 
-## Results
+## Key Findings
 
-*In progress.*
+1. **Star rating quality has stagnated** — the mean overall rating (~3.65) has been 
+   stable across 2024–2026, but the distribution has shifted: fewer contracts achieve 
+   4+ stars, suggesting CMS has tightened its methodology.
+
+2. **Market is highly concentrated** — UnitedHealth, Centene, CVS, and Elevance 
+   account for the majority of MA contracts. Larger organizations tend to have lower 
+   average ratings than smaller regional players (Kaiser ★4.3, Alignment ★4.4).
+
+3. **MA has crossed the 50% threshold** — 27 of 51 states now have majority MA 
+   enrollment. Michigan leads at 63%; Alaska is lowest at ~5%.
+
+4. **Size and quality are modestly correlated** (Spearman r=0.36) — large plans 
+   rarely fall below 3.0 stars, while small plans show the highest variance.
+
+5. **SNP vs Non-SNP plans perform similarly** — median star rating is 3.5 for both 
+   groups across all years, despite SNPs serving significantly more complex populations.
+
+See [`notebooks/01_eda.ipynb`](notebooks/01_eda.ipynb) for the full analysis.
 
 ---
 
