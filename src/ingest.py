@@ -121,14 +121,28 @@ def build_enrollment_monthly():
     path = RAW / "monthly_enrollment" / "Medicare Monthly Enrollment" / "2026-01" / \
            "Medicare Monthly Enrollment Data_January 2026.csv"
 
-    # This file is large — read only needed columns
+    # This file is large (200MB) — read and filter immediately
     df = pd.read_csv(path, dtype=str)
     df.columns = df.columns.str.strip()
 
-    print(f"  Columns: {list(df.columns[:10])}...")
-    print(f"  Shape: {df.shape}")
+    # Filter to state-level only (not county, not national)
+    df = df[df["BENE_GEO_LVL"] == "State"].copy()
 
-    out_path = OUT / "enrollment_monthly_raw.csv"
+    # Keep only the columns we need
+    keep = ["YEAR", "MONTH", "BENE_STATE_ABRVTN", "BENE_STATE_DESC",
+            "TOT_BENES", "ORGNL_MDCR_BENES", "MA_AND_OTH_BENES"]
+    df = df[keep]
+
+    # Convert to numeric
+    for col in ["TOT_BENES", "ORGNL_MDCR_BENES", "MA_AND_OTH_BENES"]:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # Calculate MA penetration rate
+    df["ma_penetration"] = df["MA_AND_OTH_BENES"] / df["TOT_BENES"]
+
+    print(f"  Shape after filtering: {df.shape}")
+
+    out_path = OUT / "enrollment_monthly_state.csv"
     df.to_csv(out_path, index=False)
     print(f"  → saved {out_path}\n")
     return df
