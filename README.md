@@ -77,11 +77,19 @@ This produces three clean CSVs in `data/processed/` ready for analysis:
 - `enrollment_county.csv` — MA enrollment by state/county/contract
 - `enrollment_monthly_state.csv` — MA vs Original Medicare by state
 
+```
 ### Run the dashboard
 
 ```bash
 streamlit run src/app.py
 ```
+
+The dashboard includes four interactive views:
+- **Star Rating Distribution** — histogram with mean overlay, filterable by year
+- **Market Concentration** — top 15 parent organizations by contracts, colored by avg star rating
+- **MA Penetration by State** — choropleth map (January 2026)
+- **Plan Size vs Quality** — scatter plot of enrollment vs star rating by organization
+
 
 ## Key Findings
 
